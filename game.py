@@ -7,12 +7,6 @@ import time
 connect = sqlite3.connect('test.db')
 cursor = connect.cursor()
 
-list = []
-count = 0
-
-fox = pygame.image.load(r"C:\Users\krech\Desktop\krechetovn\dev\sqlite\fox.png")
-dog = pygame.image.load(r"C:\Users\krech\Desktop\krechetovn\dev\sqlite\photo_2020-09-15_12-54-17.jpg")
-
 
 class Hero():
     def __init__(self, x, y, color, rad):
@@ -53,7 +47,7 @@ class Hero():
             self.y = H
 
 
-class Enemy(pygame.sprite.Sprite):
+class Enemy():
     def __init__(self, xr, yr, color, rad):
         self.xr, self.yr = xr, yr
         self.rad = rad
@@ -81,11 +75,8 @@ class Enemy(pygame.sprite.Sprite):
         self.rect[0] = self.xr - self.rad
         self.rect[1] = self.yr - self.rad
         
-    
 
 pygame.init()
-
-all_sprites = pygame.sprite.Group()
 
 W = 1000
 H = 800
@@ -93,13 +84,11 @@ H = 800
 fps = pygame.time.Clock()
 sc = pygame.display.set_mode((W, H))
 
-
 hero1 = Hero(W//2, H//2, (180, 190, 50), 25)
-
 list_of_enemies = []
-
 t1 = time.time()
 running = True
+count = 0
 
 while running:
     if time.time() - t1 >= 1:
@@ -107,7 +96,7 @@ while running:
         t1 = time.time()
         xr = randint(0, W)
         xy = randint(0, H)
-        list_of_enemies.append(Enemy(xr, xy, (100, 100, 100), 30))
+        list_of_enemies.append(Enemy(xr, xy, (150, 150, 50), 30))
         count += 1
     
 
@@ -140,10 +129,12 @@ while running:
 name = input()
 
 
-# ворос: как добавить name и count в таблицу???
+# вопрос: как добавить name и count в таблицу???
 cursor.execute("INSERT INTO players VALUES(21, 1212)")
 cursor.execute('''SELECT * FROM players''')
 data_from_db = cursor.fetchall()
+
+print(data_from_db)
 
 connect.commit()
 connect.close()
